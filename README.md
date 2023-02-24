@@ -3,6 +3,11 @@
 
 An emulator of the original Nintendo Game Boy™.
 
+<p align="center">
+	<img src="README/DMG-01_boot-screen.png"/>
+</p>
+
+
 ## Overview
 
 This repository provides an emulator for the original Nintendo Game Boy™. Rather than trying to compete with many existing emulators, such as [SameBoy](https://sameboy.github.io/) and [BGB](https://bgb.bircd.org/), this implementation has started as and is an educational exercise as likely one of the best ways to understand how in particular a CPU work. Moreover, it is far from complete and still work in progress.
