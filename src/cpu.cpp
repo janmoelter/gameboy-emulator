@@ -4162,17 +4162,21 @@ const std::uint8_t& cpu::RETI()
 
 bool cpu::interrupt_enabled(const INTERRUPT& i)
 {
-	return static_cast<std::uint8_t>((this->_bus->_memory.IE() & (0b1 << static_cast<std::uint8_t>(i))) > 0);
+	std::uint8_t& IE = this->_bus->get_u8_memory_value(memory::$::IE);
+	
+	return static_cast<std::uint8_t>((IE & (0b1 << static_cast<std::uint8_t>(i))) > 0);
 }
 
 bool cpu::interrupt_requested(const INTERRUPT& i)
 {
-	return static_cast<std::uint8_t>((this->_bus->_memory.IF() & (0b1 << static_cast<std::uint8_t>(i))) > 0);
+	std::uint8_t& IF = this->_bus->get_u8_memory_value(memory::$::IF);
+
+	return static_cast<std::uint8_t>((IF & (0b1 << static_cast<std::uint8_t>(i))) > 0);
 }
 
 void cpu::IME(const bool& b)
 {
-	//std::uint8_t& IE = this->_bus->_memory.IE();
+	//std::uint8_t& IE = this->_bus->get_u8_memory_value(memory::$::IE);
 	//for (auto& i : cpu::INTERRUPTS)
 	//{
 	//	b ? this->set_bit(static_cast<std::uint8_t>(i), IE) : this->reset_bit(static_cast<std::uint8_t>(i), IE);

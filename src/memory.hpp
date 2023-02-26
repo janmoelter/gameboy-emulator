@@ -93,56 +93,56 @@ namespace gameboy
 			IE = 0xFFFF,
 		};
 
-		std::span<std::uint8_t, 0x10000> RAM(void) {
+		std::span<std::uint8_t> RAM(void) {
 			return std::span(&_memory[0x0000], 0x10000);
 		};
-
-		std::span<std::uint8_t, 0x0100> BOOTROM(void) {
+		
+		std::span<std::uint8_t> BOOTROM(void) {
 			return std::span(&_memory[0x0000], 0x0100);
 		};
-
-		std::span<std::uint8_t, 0x8000> ROM(void) {
+		
+		std::span<std::uint8_t> ROM(void) {
 			return std::span(&_memory[0x0000], 0x8000);
 		};
-		std::span<std::uint8_t, 0x4000> ROM0(void) {
+		std::span<std::uint8_t> ROM0(void) {
 			return std::span(&_memory[0x0000], 0x4000);
 		};
-		std::span<std::uint8_t, 0x4000> ROMn(void) {
+		std::span<std::uint8_t> ROMn(void) {
 			return std::span(&_memory[0x4000], 0x4000);
 		};
-
-		std::span<std::uint8_t, 0x2000> VRAM(void) {
+		
+		std::span<std::uint8_t> VRAM(void) {
 			return std::span(&_memory[0x8000], 0x2000);
 		};
-		std::span<std::uint8_t, 0x2000> XRAM(void) {
+		std::span<std::uint8_t> XRAM(void) {
 			return std::span(&_memory[0xA000], 0x2000);
 		};
-
-		std::span<std::uint8_t, 0x2000> WRAM(void) {
+		
+		std::span<std::uint8_t> WRAM(void) {
 			return std::span(&_memory[0xC000], 0x2000);
 		};
-		std::span<std::uint8_t, 0x1000> WRAM0(void) {
+		std::span<std::uint8_t> WRAM0(void) {
 			return std::span(&_memory[0xC000], 0x1000);
 		};
-		std::span<std::uint8_t, 0x1000> WRAMn(void) {
+		std::span<std::uint8_t> WRAMn(void) {
 			return std::span(&_memory[0xD000], 0x1000);
 		};
-
-		std::span<std::uint8_t, 0x1E00> ECHORAM(void) {
+		
+		std::span<std::uint8_t> ECHORAM(void) {
 			return std::span(&_memory[0xE000], 0x1E00);
 		};
-
-		std::span<std::uint8_t, 0x00A0> OAMRAM(void) {
+		
+		std::span<std::uint8_t> OAMRAM(void) {
 			return std::span(&_memory[0xFE00], 0x00A0);
 		};
-
-		std::span<std::uint8_t, 0x0080> IO(void) {
+		
+		std::span<std::uint8_t> IO(void) {
 			return std::span(&_memory[0xFF00], 0x0080);
 		};
 		std::uint8_t& IF(void) {
 			return _memory[0xFF0F];
 		};
-		std::span<std::uint8_t, 0x007F> HRAM(void) {
+		std::span<std::uint8_t> HRAM(void) {
 			return std::span(&_memory[0xFF80], 0x007F);
 		};
 		std::uint8_t& IE(void) {
