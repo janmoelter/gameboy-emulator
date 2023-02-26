@@ -45,7 +45,9 @@ namespace gameboy
 
 		void wait(const std::uint16_t&);
 
-		
+	public:
+
+		const std::uint32_t& gpu_ticks();
 
 	};
 }

@@ -62,6 +62,7 @@ void clock::increment(const std::uint8_t& cycles)
 		if (LY == 0x90)
 		{
 			this->_bus->request_interrupt(bus::INTERRUPT::VBlank);
+			this->_gpu_ticks += 1;
 			this->_gpu_tick = true;
 		}
 	}
@@ -93,4 +94,9 @@ void clock::increment(const std::uint8_t& cycles)
 		}
 	}
 
+}
+
+const std::uint32_t& clock::gpu_ticks()
+{
+	return this->_gpu_ticks;
 }

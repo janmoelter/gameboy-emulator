@@ -15,7 +15,7 @@ interface::~interface()
 
 void interface::create_window(void)
 {
-	this->_window.create(sf::VideoMode(this->SCREEN_WIDTH, this->SCREEN_HEIGHT), "Display", sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close);
+	this->_window.create(sf::VideoMode(this->SCREEN_WIDTH, this->SCREEN_HEIGHT), "", sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close);
 
 	this->_window.setSize(sf::Vector2u(this->SCREEN_ZOOM * this->SCREEN_WIDTH, this->SCREEN_ZOOM * this->SCREEN_HEIGHT));
 	this->_window.setPosition(sf::Vector2i(0,0));
@@ -105,6 +105,14 @@ void interface::update_window(void)
 		this->_window.clear();
 		this->_window.draw(this->_bus->_gpu._screen);
 		this->_window.display();
+
+		if (false)
+		{
+			sf::Texture texture;
+			texture.create(this->_window.getSize().x,this->_window.getSize().y);
+			texture.update(this->_window);
+			texture.copyToImage().saveToFile("./screen-" + std::to_string(this->_bus->_clock.gpu_ticks()) + ".png");
+		}
 	}
 }
 
