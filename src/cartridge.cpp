@@ -288,7 +288,7 @@ cartridge::cartridge(std::ifstream& file) : rom::rom(file)
 			this->_ram_banks = 0;
 			throw std::runtime_error("Unknown RAM size.");
 	}
-	this->_ram_size = 8 * (1 << 10) * this->_rom_banks;
+	this->_ram_size = 8 * (1 << 10) * this->_ram_banks;
 
 	if (this->_rom[0x014B] == 0x33)
 	{
