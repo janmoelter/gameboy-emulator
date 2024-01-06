@@ -312,7 +312,7 @@ cartridge::cartridge(std::ifstream& file) : rom::rom(file)
 	std::cout << "  ROM size: " << std::dec << (this->_rom_size / (1 << 10)) << "KiB" << std::endl;
 	if (this->_ram_banks > 0)
 	{
-		std::cout << "RAM size: " << std::dec << (this->_ram_size / (1 << 10)) << "KiB" << std::endl;
+		std::cout << "  RAM size: " << std::dec << (this->_ram_size / (1 << 10)) << "KiB" << std::endl;
 	}
 	std::cout << std::endl;
 
