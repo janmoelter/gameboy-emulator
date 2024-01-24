@@ -10,7 +10,7 @@ An emulator of the original Nintendo Game Boy™.
 
 ## Overview
 
-This repository provides an emulator for the original Nintendo Game Boy™. Rather than trying to compete with many existing emulators, such as [SameBoy](https://sameboy.github.io/) and [BGB](https://bgb.bircd.org/), this implementation has started as and is an educational exercise as likely one of the best ways to understand how in particular a CPU work. Moreover, it is far from complete and still work in progress.
+This repository provides an emulator for the original Nintendo Game Boy™. Rather than trying to compete with many existing emulators, such as [SameBoy](https://sameboy.github.io/) and [BGB](https://bgb.bircd.org/), this implementation has started as and is an educational exercise as likely one of the best ways to understand how in particular a CPU works. Moreover, it is far from complete and still work in progress.
 
 ## Requirements
 
@@ -20,13 +20,13 @@ The implementation has been done using the C++20 standard. Besides that, it util
 
 The emulator can be built using the provided Makefile after which the compiled binary can be found in the directory `bin/`.
 
-Importantly, due to copyright, this repository does not contain the original boot rom or cartridge roms. Those must be acquired elsewhere and provided when starting the programme via command-line arguments.
+Importantly, due to copyright, this repository does not contain the original boot rom or cartridge roms. Those must be acquired elsewhere and provided when starting the programme via command-line arguments. As a matter of fact, the boot rom is not strictly necessary.
 
 ### Example
 
 In its current state, this emulator passes all of [Blargg's](https://github.com/retrio/gb-test-roms) CPU instruction behaviour tests.
 
-Assuming the DMG-01 boot rom is located at `data/DMG-01-ROM.gb` (although not strictly necessary) and Blargg's test roms at `data/test-roms/blargg/`, the following executes the test rom for special instructions.
+Assuming the DMG-01 boot rom is located at `data/DMG-01-ROM.gb` (MD5 hash: `32fbbd84168d3482956eb3c5051637f5`) and Blargg's test roms at `data/test-roms/blargg/`, the following executes the test rom for special instructions.
 
 ```bash
 ./bin/emulator --boot-rom=data/DMG-01-ROM.gb --cartridge=data/test-roms/blargg/cpu_instrs/individual/01-special.gb
