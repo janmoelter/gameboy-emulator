@@ -57,6 +57,8 @@ namespace gameboy
 
 		void load_bootrom(void);
 		void load_cartridge(void);
+		void load_cartridge_rom(const std::uint8_t&);
+		void load_cartridge_ram(const std::uint8_t&);
 
 		void initialise_IO_registers(void);
 

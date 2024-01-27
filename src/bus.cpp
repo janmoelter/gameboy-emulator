@@ -32,6 +32,8 @@ bus::~bus()
 void bus::initialise_system(void)
 {
 	this->initialise_IO_registers();
+	
+	this->load_bootrom();
 	this->load_cartridge();
 	
 	if (this->ENABLE_DISPLAY)
@@ -42,13 +44,30 @@ void bus::initialise_system(void)
 
 void bus::load_bootrom(void)
 {
-	std::copy(this->_bootrom._rom.begin(), this->_bootrom._rom.end(), this->_memory._memory.begin());
+	this->_memory.BOOTROM = std::span(&this->_bootrom._rom[0x0000], 0x0100);
 }
 
 void bus::load_cartridge(void)
 {
-	//std::copy(this->_cartridge._rom.begin(), this->_cartridge._rom.end(), this->_memory._memory.begin());
-	std::copy_n(this->_cartridge._rom.begin(), 0x8000, this->_memory._memory.begin());
+	this->load_cartridge_rom(0);
+	this->load_cartridge_rom(1);
+}
+
+void bus::load_cartridge_rom(const std::uint8_t& n)
+{
+	if (n == 0)
+	{
+		this->_memory.ROM0 = std::span(&this->_cartridge._rom[0x0000], 0x4000);
+	}
+	else
+	{
+		this->_memory.ROMn = std::span(&this->_cartridge._rom[n * 0x4000], 0x4000);
+	}
+}
+
+void bus::load_cartridge_ram(const std::uint8_t& n)
+{
+	
 }
 
 void bus::initialise_IO_registers(void)
@@ -196,15 +215,10 @@ const std::uint16_t& bus::get_program_counter()
 
 std::uint8_t& bus::get_memory_value(const std::uint16_t& a)
 {
-	if (0xFF00 <= a && a <= 0xFF70)
-	{
-		//std::cout << "*** Access IO RAM at " << hex(4) << (int)a << std::endl;
-	}
-
 	if (a == static_cast<std::uint16_t>(memory::$::P1))
 	{
 		// no button pressed
-		std::uint8_t& P1 = this->_memory._memory[static_cast<std::uint16_t>(memory::$::P1)];
+		std::uint8_t& P1 = this->_memory.get_value(static_cast<std::uint16_t>(memory::$::P1));
 		if (P1 & (1 << 5))
 		{
 			P1 |= 0x0E;
@@ -215,20 +229,13 @@ std::uint8_t& bus::get_memory_value(const std::uint16_t& a)
 			P1 |= 0x0F;
 		}
 	}
-
-	if (this->_BOOTPHASE && a < 0x100)
-	{
-		return this->_bootrom._rom[a];
-	}
-	else
-	{
-		return this->_memory._memory[a];
-	}
+	
+	return this->_memory.get_value(a);
 }
 
 std::uint8_t& bus::get_u8_memory_value(const std::uint16_t& a)
 {
-	return *reinterpret_cast<std::uint8_t*>(&get_memory_value(a));
+	return *reinterpret_cast<std::uint8_t*>(&this->get_memory_value(a));
 }
 
 std::uint8_t& bus::get_u8_memory_value(const memory::$& a)
@@ -242,7 +249,7 @@ std::uint16_t& bus::get_u16_memory_value(const std::uint16_t& a)
 	#warning "Definition of cpu::u16_memory_value assumes a little-endian system."
 #endif
 
-	return *reinterpret_cast<std::uint16_t*>(&get_memory_value(a));
+	return *reinterpret_cast<std::uint16_t*>(&this->get_memory_value(a));
 }
 
 std::uint16_t& bus::get_u16_memory_value(const memory::$& a)

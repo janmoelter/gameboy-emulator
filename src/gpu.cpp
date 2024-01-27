@@ -41,7 +41,7 @@ void gpu::build_palette(void)
 void gpu::build_tileset(void)
 {
 	std::array<std::uint8_t, 0x2000> _vram;
-	std::copy_n(this->_bus->_memory.VRAM().begin(), 0x2000, _vram.begin());
+	std::copy_n(this->_bus->_memory.VRAM.begin(), 0x2000, _vram.begin());
 
 	if (this->_vram_cache != _vram)
 	{
