@@ -176,7 +176,7 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-		throw std::runtime_error("Cartridige: " + _CARTRIDGE.u8string() + " does not exist.");
+		throw std::runtime_error("Cartridge: " + _CARTRIDGE.string() + " does not exist.");
 	}
 
 	// Initialise clock
