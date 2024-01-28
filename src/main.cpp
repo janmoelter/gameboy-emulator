@@ -253,7 +253,7 @@ int main(int argc, char **argv)
 		{
 			char c = bus.get_u8_memory_value(0xFF01);
 			std::cout << c;
-			bus.get_u8_memory_value(0xFF02) = 0x00;
+			bus.set_u8_memory_value(0xFF02, 0x00);
 		}
 	}
 

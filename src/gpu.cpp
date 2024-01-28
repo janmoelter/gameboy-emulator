@@ -16,7 +16,7 @@ gpu::~gpu()
 
 void gpu::build_palette(void)
 {
-	std::uint8_t& BGP = this->_bus->get_u8_memory_value(memory::$::BGP);
+	const std::uint8_t& BGP = this->_bus->get_u8_memory_value(memory::$::BGP);
 
 	for (size_t i = 0; i < 4; i++)
 	{
@@ -118,8 +118,8 @@ void gpu::render_screen(void)
 		this->_screenbuffer.display();
 
 		
-		std::uint8_t& SCY = this->_bus->get_u8_memory_value(memory::$::SCY);
-		std::uint8_t& SCX = this->_bus->get_u8_memory_value(memory::$::SCX);
+		const std::uint8_t& SCY = this->_bus->get_u8_memory_value(memory::$::SCY);
+		const std::uint8_t& SCX = this->_bus->get_u8_memory_value(memory::$::SCX);
 		//std::cout << "SCX: " << hex(2) << (int)SCX << "   " << "SCY: " << hex(2) << (int)SCY << std::endl;
 
 		sf::IntRect _window_rectangle(SCX, SCY, this->SCREEN_WIDTH, this->SCREEN_HEIGHT);

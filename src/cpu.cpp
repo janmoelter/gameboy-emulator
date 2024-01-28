@@ -2684,8 +2684,8 @@ std::uint8_t cpu::execute_instruction(const bool& print_opcodes)
 
 std::uint8_t cpu::handle_interrupts()
 {
-	std::uint8_t& IE = this->_bus->get_u8_memory_value(memory::$::IE);
-	std::uint8_t& IF = this->_bus->get_u8_memory_value(memory::$::IF);
+	const std::uint8_t& IE = this->_bus->get_u8_memory_value(memory::$::IE);
+	std::uint8_t IF = this->_bus->get_u8_memory_value(memory::$::IF);
 
 	std::uint8_t IE_IF = IE & IF;
 
@@ -2704,8 +2704,9 @@ std::uint8_t cpu::handle_interrupts()
 			}
 		}
 	}
-
-	//return 5*4;
+	
+	this->_bus->set_u8_memory_value(memory::$::IF, IF);
+	
 	return 0;
 }
 
@@ -2848,7 +2849,7 @@ void cpu::_ADD__A_U8(const std::uint8_t& u8)
 
 const std::uint8_t& cpu::ADD__A_U8()
 {
-	std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
+	const std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 2;
 
 	this->_ADD__A_U8(U8);
@@ -2871,7 +2872,7 @@ const std::uint8_t& cpu::ADD__A_R(const REGISTER& r)
 const std::uint8_t& cpu::ADD__A_$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	const std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_ADD__A_U8($HL);
 
@@ -2915,7 +2916,7 @@ void cpu::_ADD__SP_S8(const std::int8_t& s8)
 
 const std::uint8_t& cpu::ADD__SP_S8()
 {
-	std::int8_t& S8 = *reinterpret_cast<std::int8_t*>(&this->_bus->get_u8_memory_value(this->_registers.PC + 1));
+	const std::int8_t& S8 = *reinterpret_cast<const std::int8_t*>(&this->_bus->get_u8_memory_value(this->_registers.PC + 1));
 	this->_registers.PC += 2;
 
 	this->_ADD__SP_S8(S8);
@@ -2941,7 +2942,7 @@ void cpu::_ADC__A_U8(const std::uint8_t& u8)
 
 const std::uint8_t& cpu::ADC__A_U8()
 {
-	std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
+	const std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 2;
 
 	this->_ADC__A_U8(U8);
@@ -2964,7 +2965,7 @@ const std::uint8_t& cpu::ADC__A_R(const REGISTER& r)
 const std::uint8_t& cpu::ADC__A_$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	const std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_ADC__A_U8($HL);
 
@@ -2986,7 +2987,7 @@ void cpu::_SUB__A_U8(const std::uint8_t& u8)
 
 const std::uint8_t& cpu::SUB__A_U8()
 {
-	std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
+	const std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 2;
 
 	this->_SUB__A_U8(U8);
@@ -3009,7 +3010,7 @@ const std::uint8_t& cpu::SUB__A_R(const REGISTER& r)
 const std::uint8_t& cpu::SUB__A_$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	const std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_SUB__A_U8($HL);
 
@@ -3032,7 +3033,7 @@ void cpu::_SBC__A_U8(const std::uint8_t& u8)
 
 const std::uint8_t& cpu::SBC__A_U8()
 {
-	std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
+	const std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 2;
 
 	this->_SBC__A_U8(U8);
@@ -3055,7 +3056,7 @@ const std::uint8_t& cpu::SBC__A_R(const REGISTER& r)
 const std::uint8_t& cpu::SBC__A_$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	const std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_SBC__A_U8($HL);
 
@@ -3074,7 +3075,7 @@ void cpu::_AND__A_U8(const std::uint8_t& u8)
 
 const std::uint8_t& cpu::AND__A_U8()
 {
-	std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
+	const std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 2;
 
 	this->_AND__A_U8(U8);
@@ -3097,7 +3098,7 @@ const std::uint8_t& cpu::AND__A_R(const REGISTER& r)
 const std::uint8_t& cpu::AND__A_$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	const std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_AND__A_U8($HL);
 
@@ -3116,7 +3117,7 @@ void cpu::_OR__A_U8(const std::uint8_t& u8)
 
 const std::uint8_t& cpu::OR__A_U8()
 {
-	std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
+	const std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 2;
 
 	this->_OR__A_U8(U8);
@@ -3139,7 +3140,7 @@ const std::uint8_t& cpu::OR__A_R(const REGISTER& r)
 const std::uint8_t& cpu::OR__A_$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	const std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_OR__A_U8($HL);
 
@@ -3158,7 +3159,7 @@ void cpu::_XOR__A_U8(const std::uint8_t& u8)
 
 const std::uint8_t& cpu::XOR__A_U8()
 {
-	std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
+	const std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 2;
 
 	this->_XOR__A_U8(U8);
@@ -3181,7 +3182,7 @@ const std::uint8_t& cpu::XOR__A_R(const REGISTER& r)
 const std::uint8_t& cpu::XOR__A_$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	const std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_XOR__A_U8($HL);
 
@@ -3215,9 +3216,11 @@ const std::uint8_t& cpu::BIT__n_R(const std::uint8_t& n, const REGISTER& r)
 const std::uint8_t& cpu::BIT__n_$HL(const std::uint8_t& n)
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	std::uint8_t $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_BIT__n_U8(n, $HL);
+	
+	this->_bus->set_u8_memory_value(this->_registers.HL, $HL);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::BIT__n_$HL);
 }
@@ -3240,9 +3243,11 @@ const std::uint8_t& cpu::RES__n_R(const std::uint8_t& n, const REGISTER& r)
 const std::uint8_t& cpu::RES__n_$HL(const std::uint8_t& n)
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	std::uint8_t $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_RES__n_U8(n, $HL);
+	
+	this->_bus->set_u8_memory_value(this->_registers.HL, $HL);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::RES__n_$HL);
 }
@@ -3265,9 +3270,11 @@ const std::uint8_t& cpu::SET__n_R(const std::uint8_t& n, const REGISTER& r)
 const std::uint8_t& cpu::SET__n_$HL(const std::uint8_t& n)
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	std::uint8_t $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 	
 	this->_SET__n_U8(n, $HL);
+	
+	this->_bus->set_u8_memory_value(this->_registers.HL, $HL);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::SET__n_$HL);
 }
@@ -3286,7 +3293,7 @@ void cpu::_CP__A_U8(const std::uint8_t& u8)
 
 const std::uint8_t& cpu::CP__A_U8()
 {
-	std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
+	const std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 2;
 
 	this->_CP__A_U8(U8);
@@ -3309,7 +3316,7 @@ const std::uint8_t& cpu::CP__A_R(const REGISTER& r)
 const std::uint8_t& cpu::CP__A_$HL(void)
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	const std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_CP__A_U8($HL);
 
@@ -3358,9 +3365,11 @@ const std::uint8_t& cpu::DEC__R(const REGISTER& r)
 const std::uint8_t& cpu::DEC__$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	std::uint8_t $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_DEC__U8($HL);
+	
+	this->_bus->set_u8_memory_value(this->_registers.HL, $HL);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::DEC__$HL);
 }
@@ -3407,17 +3416,19 @@ const std::uint8_t& cpu::INC__R(const REGISTER& r)
 const std::uint8_t& cpu::INC__$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	std::uint8_t $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_INC__U8($HL);
+	
+	this->_bus->set_u8_memory_value(this->_registers.HL, $HL);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::INC__$HL);
 }
 
 const std::uint8_t& cpu::HALT()
 {
-	std::uint8_t& IE = this->_bus->get_u8_memory_value(memory::$::IE);
-	std::uint8_t& IF = this->_bus->get_u8_memory_value(memory::$::IF);
+	const std::uint8_t& IE = this->_bus->get_u8_memory_value(memory::$::IE);
+	const std::uint8_t& IF = this->_bus->get_u8_memory_value(memory::$::IF);
 
 	std::uint8_t IE_IF = IE & IF;
 
@@ -3442,7 +3453,7 @@ void cpu::_LD__U8_U8(std::uint8_t& u8_1, const std::uint8_t& u8_2)
 
 const std::uint8_t& cpu::LD__R_U8(const REGISTER& r)
 {
-	std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
+	const std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 2;
 	std::uint8_t& R = *std::get<std::uint8_t*>(this->register_ptr(r));
 	
@@ -3467,7 +3478,7 @@ const std::uint8_t& cpu::LD__R_$RR(const REGISTER& r, const REGISTER& rr)
 {
 	this->_registers.PC += 1;
 	std::uint8_t& R = *std::get<std::uint8_t*>(this->register_ptr(r));
-	std::uint8_t& $RR = this->_bus->get_u8_memory_value(*std::get<std::uint16_t*>(this->register_ptr(rr)));
+	const std::uint8_t& $RR = this->_bus->get_u8_memory_value(*std::get<std::uint16_t*>(this->register_ptr(rr)));
 
 	this->_LD__U8_U8(R, $RR);
 
@@ -3476,11 +3487,13 @@ const std::uint8_t& cpu::LD__R_$RR(const REGISTER& r, const REGISTER& rr)
 
 const std::uint8_t& cpu::LD__$RR_U8(const REGISTER& rr)
 {
-	std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
+	const std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 2;
-	std::uint8_t& $RR = this->_bus->get_u8_memory_value(*std::get<std::uint16_t*>(this->register_ptr(rr)));
+	std::uint8_t $RR;
 
 	this->_LD__U8_U8($RR, U8);
+	
+	this->_bus->set_u8_memory_value(*std::get<std::uint16_t*>(this->register_ptr(rr)), $RR);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::LD__$RR_U8);
 }
@@ -3488,10 +3501,12 @@ const std::uint8_t& cpu::LD__$RR_U8(const REGISTER& rr)
 const std::uint8_t& cpu::LD__$RR_R(const REGISTER& rr, const REGISTER& r)
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $RR = this->_bus->get_u8_memory_value(*std::get<std::uint16_t*>(this->register_ptr(rr)));
+	std::uint8_t $RR;
 	std::uint8_t& R = *std::get<std::uint8_t*>(this->register_ptr(r));
 	
 	this->_LD__U8_U8($RR, R);
+	
+	this->_bus->set_u8_memory_value(*std::get<std::uint16_t*>(this->register_ptr(rr)), $RR);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::LD__$RR_R);
 }
@@ -3535,7 +3550,7 @@ void cpu::_LD__U16_U16(std::uint16_t& u16_1, const std::uint16_t& u16_2)
  
 const std::uint8_t& cpu::LD__RR_U16(const REGISTER& rr)
 {
-	std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
+	const std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 3;
 	std::uint16_t& RR = *std::get<std::uint16_t*>(this->register_ptr(rr));
 	
@@ -3558,33 +3573,37 @@ const std::uint8_t& cpu::LD__RR_RR(const REGISTER& rr_1, const REGISTER& rr_2)
 
 const std::uint8_t& cpu::LD__$U16_RR(const REGISTER& rr)
 {
-	std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
+	const std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 3;
-	std::uint16_t& $U16 = this->_bus->get_u16_memory_value(U16);
+	std::uint16_t $U16;
 	std::uint16_t& RR = *std::get<std::uint16_t*>(this->register_ptr(rr));
 	
 	this->_LD__U16_U16($U16, RR);
+	
+	this->_bus->set_u16_memory_value(U16, $U16);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::LD__$U16_RR);
 }
 
 const std::uint8_t& cpu::LD__$U16_R(const REGISTER& r)
 {
-	std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
+	const std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 3;
-	std::uint8_t& $U16 = this->_bus->get_u8_memory_value(U16);
+	std::uint8_t $U16;
 	std::uint8_t& R = *std::get<std::uint8_t*>(this->register_ptr(r));
 	
 	this->_LD__U8_U8($U16, R);
+	
+	this->_bus->set_u8_memory_value(U16, $U16);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::LD__$U16_R);
 }
 
 const std::uint8_t& cpu::LD__R_$U16(const REGISTER& r)
 {
-	std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
+	const std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 3;
-	std::uint8_t& $U16 = this->_bus->get_u8_memory_value(U16);
+	const std::uint8_t& $U16 = this->_bus->get_u8_memory_value(U16);
 	std::uint8_t& R = *std::get<std::uint8_t*>(this->register_ptr(r));
 	
 	this->_LD__U8_U8(R, $U16);
@@ -3596,10 +3615,12 @@ const std::uint8_t& cpu::LD__R_$U16(const REGISTER& r)
 const std::uint8_t& cpu::LD__$R_R(const REGISTER& r_1, const REGISTER& r_2)
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $R = this->_bus->get_u8_memory_value(0xFF00 + *std::get<std::uint8_t*>(this->register_ptr(r_1)));
+	std::uint8_t $R;
 	std::uint8_t& R = *std::get<std::uint8_t*>(this->register_ptr(r_2));
 
 	this->_LD__U8_U8($R, R);
+	
+	this->_bus->set_u8_memory_value(0xFF00 + *std::get<std::uint8_t*>(this->register_ptr(r_1)), $R);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::LD__$R_R);
 }
@@ -3608,7 +3629,7 @@ const std::uint8_t& cpu::LD__R_$R(const REGISTER& r_1, const REGISTER& r_2)
 {
 	this->_registers.PC += 1;
 	std::uint8_t& R = *std::get<std::uint8_t*>(this->register_ptr(r_1));
-	std::uint8_t& $R = this->_bus->get_u8_memory_value(0xFF00 + *std::get<std::uint8_t*>(this->register_ptr(r_2)));
+	const std::uint8_t& $R = this->_bus->get_u8_memory_value(0xFF00 + *std::get<std::uint8_t*>(this->register_ptr(r_2)));
 
 	this->_LD__U8_U8(R, $R);
 
@@ -3617,12 +3638,14 @@ const std::uint8_t& cpu::LD__R_$R(const REGISTER& r_1, const REGISTER& r_2)
 
 const std::uint8_t& cpu::LDH__$U8_R(const REGISTER& r)
 {
-	std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
+	const std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 2;
-	std::uint8_t& $U8 = this->_bus->get_u8_memory_value(0xFF00 + U8);
+	std::uint8_t $U8;
 	std::uint8_t& R = *std::get<std::uint8_t*>(this->register_ptr(r));
 	
 	this->_LD__U8_U8($U8, R);
+	
+	this->_bus->set_u8_memory_value(0xFF00 + U8, $U8);
 
 	this->print_argument(U8);
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::LDH__$U8_R);
@@ -3630,10 +3653,10 @@ const std::uint8_t& cpu::LDH__$U8_R(const REGISTER& r)
 
 const std::uint8_t& cpu::LDH__R_$U8(const REGISTER& r)
 {
-	std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
+	const std::uint8_t& U8 = this->_bus->get_u8_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 2;
 	std::uint8_t& R = *std::get<std::uint8_t*>(this->register_ptr(r));
-	std::uint8_t& $U8 = this->_bus->get_u8_memory_value(0xFF00 + U8);
+	const std::uint8_t& $U8 = this->_bus->get_u8_memory_value(0xFF00 + U8);
 	
 	this->_LD__U8_U8(R, $U8);
 
@@ -3654,7 +3677,7 @@ void cpu::_LDHL__SP_S8(const std::int8_t& s8)
 
 const std::uint8_t& cpu::LDHL__SP_S8()
 {
-	std::int8_t& S8 = *reinterpret_cast<std::int8_t*>(&this->_bus->get_u8_memory_value(this->_registers.PC + 1));
+	const std::int8_t& S8 = *reinterpret_cast<const std::int8_t*>(&this->_bus->get_u8_memory_value(this->_registers.PC + 1));
 	this->_registers.PC += 2;
 
 	this->_LDHL__SP_S8(S8);
@@ -3673,7 +3696,7 @@ const std::uint8_t& cpu::NOP()
 void cpu::_PUSH__U16(const std::uint16_t& u16)
 {
 	this->_registers.SP -= 2;
-	this->_bus->get_u16_memory_value(this->_registers.SP) = u16;
+	this->_bus->set_u16_memory_value(this->_registers.SP, u16);
 }
 
 const std::uint8_t& cpu::PUSH__RR(const REGISTER& rr)
@@ -3740,9 +3763,11 @@ const std::uint8_t& cpu::RL__R(const REGISTER& r)
 const std::uint8_t& cpu::RL__$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	std::uint8_t $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_RL__U8($HL);
+	
+	this->_bus->set_u8_memory_value(this->_registers.HL, $HL);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::RL__$HL);
 }
@@ -3771,9 +3796,11 @@ const std::uint8_t& cpu::RLC__R(const REGISTER& r)
 const std::uint8_t& cpu::RLC__$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	std::uint8_t $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_RLC__U8($HL);
+	
+	this->_bus->set_u8_memory_value(this->_registers.HL, $HL);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::RLC__$HL);
 }
@@ -3802,9 +3829,11 @@ const std::uint8_t& cpu::RR__R(const REGISTER& r)
 const std::uint8_t& cpu::RR__$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	std::uint8_t $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_RR__U8($HL);
+	
+	this->_bus->set_u8_memory_value(this->_registers.HL, $HL);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::RR__$HL);
 }
@@ -3833,9 +3862,11 @@ const std::uint8_t& cpu::RRC__R(const REGISTER& r)
 const std::uint8_t& cpu::RRC__$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	std::uint8_t $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_RRC__U8($HL);
+	
+	this->_bus->set_u8_memory_value(this->_registers.HL, $HL);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::RRC__$HL);
 }
@@ -3896,9 +3927,11 @@ const std::uint8_t& cpu::SLA__R(const REGISTER& r)
 const std::uint8_t& cpu::SLA__$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	std::uint8_t $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_SLA__U8($HL);
+	
+	this->_bus->set_u8_memory_value(this->_registers.HL, $HL);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::SLA__$HL);
 }
@@ -3927,9 +3960,11 @@ const std::uint8_t& cpu::SRA__R(const REGISTER& r)
 const std::uint8_t& cpu::SRA__$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	std::uint8_t $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_SRA__U8($HL);
+	
+	this->_bus->set_u8_memory_value(this->_registers.HL, $HL);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::SRA__$HL);
 }
@@ -3958,9 +3993,11 @@ const std::uint8_t& cpu::SRL__R(const REGISTER& r)
 const std::uint8_t& cpu::SRL__$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	std::uint8_t $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_SRL__U8($HL);
+	
+	this->_bus->set_u8_memory_value(this->_registers.HL, $HL);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::SRL__$HL);
 }
@@ -3988,9 +4025,11 @@ const std::uint8_t& cpu::SWAP__R(const REGISTER& r)
 const std::uint8_t& cpu::SWAP__$HL()
 {
 	this->_registers.PC += 1;
-	std::uint8_t& $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
+	std::uint8_t $HL = this->_bus->get_u8_memory_value(this->_registers.HL);
 
 	this->_SWAP__U8($HL);
+	
+	this->_bus->set_u8_memory_value(this->_registers.HL, $HL);
 
 	return cpu::TEMPLATED_OPCODE_CYCLES.at(cpu::TEMPLATED_OPCODE::SWAP__$HL);
 }
@@ -4021,7 +4060,7 @@ void cpu::_JP__U16(const std::uint16_t& u16)
 
 const std::uint8_t& cpu::JP__U16()
 {
-	std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
+	const std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 3;
 
 	this->_JP__U16(U16);
@@ -4031,7 +4070,7 @@ const std::uint8_t& cpu::JP__U16()
 
 const std::uint8_t& cpu::JP__CC_U16(const FLAG_CONDITION& cc)
 {
-	std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
+	const std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 3;
 
 	if (this->test_flag_condition(cc))
@@ -4061,7 +4100,7 @@ void cpu::_JR__S8(const std::int8_t& s8)
 
 const std::uint8_t& cpu::JR__S8()
 {
-	std::int8_t& S8 = *reinterpret_cast<std::int8_t*>(&this->_bus->get_u8_memory_value(this->_registers.PC + 1));
+	const std::int8_t& S8 = *reinterpret_cast<const std::int8_t*>(&this->_bus->get_u8_memory_value(this->_registers.PC + 1));
 	this->_registers.PC += 2;
 
 	this->_JR__S8(S8);
@@ -4072,7 +4111,7 @@ const std::uint8_t& cpu::JR__S8()
 
 const std::uint8_t& cpu::JR__CC_S8(const FLAG_CONDITION& cc)
 {
-	std::int8_t& S8 = *reinterpret_cast<std::int8_t*>(&this->_bus->get_u8_memory_value(this->_registers.PC + 1));
+	const std::int8_t& S8 = *reinterpret_cast<const std::int8_t*>(&this->_bus->get_u8_memory_value(this->_registers.PC + 1));
 	this->_registers.PC += 2;
 
 	if (this->test_flag_condition(cc))
@@ -4089,13 +4128,13 @@ const std::uint8_t& cpu::JR__CC_S8(const FLAG_CONDITION& cc)
 void cpu::_CALL__U16(const std::uint16_t& u16)
 {
 	this->_registers.SP -= 2;
-	this->_bus->get_u16_memory_value(this->_registers.SP) = this->_registers.PC;
+	this->_bus->set_u16_memory_value(this->_registers.SP, this->_registers.PC);
 	this->_registers.PC = u16;
 }
 
 const std::uint8_t& cpu::CALL__U16()
 {
-	std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
+	const std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 3;
 
 	this->_CALL__U16(U16);
@@ -4106,7 +4145,7 @@ const std::uint8_t& cpu::CALL__U16()
 
 const std::uint8_t& cpu::CALL__CC_U16(const FLAG_CONDITION& cc)
 {
-	std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
+	const std::uint16_t& U16 = this->_bus->get_u16_memory_value(this->_registers.PC + 1);
 	this->_registers.PC += 3;
 
 	if (this->test_flag_condition(cc))
@@ -4122,7 +4161,7 @@ const std::uint8_t& cpu::CALL__CC_U16(const FLAG_CONDITION& cc)
 
 void cpu::_RET()
 {
-	std::uint16_t& u16 = this->_bus->get_u16_memory_value(this->_registers.SP);
+	const std::uint16_t& u16 = this->_bus->get_u16_memory_value(this->_registers.SP);
 	this->_registers.SP += 2;
 	this->_registers.PC = u16;
 }
@@ -4162,14 +4201,14 @@ const std::uint8_t& cpu::RETI()
 
 bool cpu::interrupt_enabled(const INTERRUPT& i)
 {
-	std::uint8_t& IE = this->_bus->get_u8_memory_value(memory::$::IE);
+	const std::uint8_t& IE = this->_bus->get_u8_memory_value(memory::$::IE);
 	
 	return static_cast<std::uint8_t>((IE & (0b1 << static_cast<std::uint8_t>(i))) > 0);
 }
 
 bool cpu::interrupt_requested(const INTERRUPT& i)
 {
-	std::uint8_t& IF = this->_bus->get_u8_memory_value(memory::$::IF);
+	const std::uint8_t& IF = this->_bus->get_u8_memory_value(memory::$::IF);
 
 	return static_cast<std::uint8_t>((IF & (0b1 << static_cast<std::uint8_t>(i))) > 0);
 }
@@ -4339,7 +4378,7 @@ std::uint8_t cpu::next(void)
 	{
 		// Produce Gameboy Doctor Log
 		//
-		this->_bus->get_u8_memory_value(memory::$::LY) = 0x90;
+		this->_bus->set_u8_memory_value(memory::$::LY, 0x90);
 
 		// Format: `A:00 F:11 B:22 C:33 D:44 E:55 H:66 L:77 SP:8888 PC:9999 PCMEM:AA,BB,CC,DD`
 		std::cerr << "A:" << hex(2) << (int)this->_registers.A << " ";

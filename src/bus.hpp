@@ -92,10 +92,15 @@ namespace gameboy
 
 		const std::uint16_t& advance(void);
 
-		std::uint8_t& get_u8_memory_value(const std::uint16_t&);
-		std::uint8_t& get_u8_memory_value(const memory::$&);
-		std::uint16_t& get_u16_memory_value(const std::uint16_t&);
-		std::uint16_t& get_u16_memory_value(const memory::$&);
+		const std::uint8_t& get_u8_memory_value(const std::uint16_t&);
+		const std::uint8_t& get_u8_memory_value(const memory::$&);
+		const std::uint16_t& get_u16_memory_value(const std::uint16_t&);
+		const std::uint16_t& get_u16_memory_value(const memory::$&);
+
+		void set_u8_memory_value(const std::uint16_t&, const std::uint8_t&);
+		void set_u8_memory_value(const memory::$&, const std::uint8_t&);
+		void set_u16_memory_value(const std::uint16_t&, const std::uint16_t&);
+		void set_u16_memory_value(const memory::$&, const std::uint16_t&);
 
 		void hook(void);
 		

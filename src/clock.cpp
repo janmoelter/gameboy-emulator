@@ -17,12 +17,12 @@ void clock::increment(const std::uint8_t& cycles)
 {
 	this->_cycles += cycles;
 
-	std::uint8_t& DIV = this->_bus->get_u8_memory_value(memory::$::DIV);
-	std::uint8_t& LY = this->_bus->get_u8_memory_value(memory::$::LY);
+	std::uint8_t DIV = this->_bus->get_u8_memory_value(memory::$::DIV);
+	std::uint8_t LY = this->_bus->get_u8_memory_value(memory::$::LY);
 
-	std::uint8_t& TIMA = this->_bus->get_u8_memory_value(memory::$::TIMA);
-	std::uint8_t& TMA = this->_bus->get_u8_memory_value(memory::$::TMA);
-	std::uint8_t& TAC = this->_bus->get_u8_memory_value(memory::$::TAC);
+	std::uint8_t TIMA = this->_bus->get_u8_memory_value(memory::$::TIMA);
+	const std::uint8_t& TMA = this->_bus->get_u8_memory_value(memory::$::TMA);
+	const std::uint8_t& TAC = this->_bus->get_u8_memory_value(memory::$::TAC);
 
 	std::uint16_t _timer_mod = this->_timer_mod;
 
@@ -51,6 +51,7 @@ void clock::increment(const std::uint8_t& cycles)
 	{
 		this->_div_ticks += 1;
 		DIV += 1;
+		this->_bus->set_u8_memory_value(memory::$::DIV, DIV);
 	}
 
 	if (this->_cycles / this->_ly_mod > this->_ly_ticks)
@@ -58,6 +59,7 @@ void clock::increment(const std::uint8_t& cycles)
 		this->_ly_ticks += 1;
 		LY += 1;
 		LY %= 0x99;
+		this->_bus->set_u8_memory_value(memory::$::LY, LY);
 		
 		if (LY == 0x90)
 		{
@@ -74,6 +76,7 @@ void clock::increment(const std::uint8_t& cycles)
 		if (TAC & 0b0100)
 		{
 			TIMA += 1;
+			this->_bus->set_u8_memory_value(memory::$::TIMA, TIMA);
 
 			if (TIMA == 0x00)
 			{
