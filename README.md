@@ -14,11 +14,18 @@ This repository provides an emulator for the original Nintendo Game Boy™. Rath
 
 ## Requirements
 
-The implementation has been done using the C++20 standard. Besides that, it utilises the [SFML](https://www.sfml-dev.org/) libraries for the user interface.
+The implementation has been done using the C++20 standard. Besides that, it utilises the [SFML](https://www.sfml-dev.org/) libraries for the user interface. However, at this stage, we require SFML version 2 due to the introduction of some breaking changes in later versions.
 
 ## Usage
 
-The emulator can be built using the provided Makefile after which the compiled binary can be found in the directory `bin/`.
+The emulator can be built using the CMake build system as follows:
+
+```bash
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
 
 Importantly, due to copyright, this repository does not contain the original boot rom or cartridge roms. Those must be acquired elsewhere and provided when starting the programme via command-line arguments. As a matter of fact, the boot rom is not strictly necessary.
 
@@ -29,7 +36,13 @@ In its current state, this emulator passes all of [Blargg's](https://github.com/
 Assuming the DMG-01 boot rom is located at `data/DMG-01-ROM.gb` (MD5 hash: `32fbbd84168d3482956eb3c5051637f5`) and Blargg's test roms at `data/test-roms/blargg/`, the following executes the test rom for special instructions.
 
 ```bash
-./bin/emulator --boot-rom=data/DMG-01-ROM.gb --cartridge=data/test-roms/blargg/cpu_instrs/individual/01-special.gb
+./emulator --boot-rom=data/DMG-01-ROM.gb --cartridge=data/test-roms/blargg/cpu_instrs/individual/01-special.gb
+```
+
+or
+
+```bash
+./emulator --cartridge=data/test-roms/blargg/cpu_instrs/individual/01-special.gb
 ```
 
 ## References
