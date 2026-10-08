@@ -108,7 +108,6 @@ void parse_args(int argc, char** argv)
 		{
 			case 'r':
 				_BOOT_ROM = optarg;
-				std::cout << optarg << std::endl;
 				break;
 			case 'c':
 				_CARTRIDGE = optarg;
