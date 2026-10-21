@@ -40,7 +40,7 @@ namespace gameboy
 		static const std::uint16_t SCREENBUFFER_HEIGHT = 256;
 
 		std::array<gpu::SHADES, 4> _palette;
-		std::array<sf::Texture, 0x17F> _tileset;
+		std::array<sf::Texture, 0x180> _tileset;
 
 		sf::RenderTexture _screenbuffer;
 
@@ -48,7 +48,7 @@ namespace gameboy
 
 		std::array<std::uint8_t, 0x2000> _vram_cache;
 
-		sf::Texture render_tile(const std::uint8_t&);
+		sf::Texture render_tile(const std::uint16_t&);
 		void build_tileset(void);
 
 	public:

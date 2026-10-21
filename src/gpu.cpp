@@ -55,7 +55,7 @@ void gpu::build_tileset(void)
 
 		//std::uint64_t
 
-		for (size_t i = 0; i < 0x17F; i++)
+		for (size_t i = 0; i < 0x180; i++)
 		{
 			this->_tileset[i] = this->render_tile(i);
 		}
@@ -64,7 +64,7 @@ void gpu::build_tileset(void)
 	}
 }
 
-sf::Texture gpu::render_tile(const std::uint8_t& i)
+sf::Texture gpu::render_tile(const std::uint16_t& i)
 {
 	sf::Texture _texture;
 	_texture.create(8,8);
@@ -109,7 +109,15 @@ void gpu::render_screen(void)
 			{
 				i_tile = this->_bus->get_u8_memory_value(0x9800 + LCDC[3] * 0x0400 + i);
 				
-				_sprite.setTexture(this->_tileset[i_tile]);
+				if (LCDC[4])
+				{
+					_sprite.setTexture(this->_tileset[i_tile]);
+				}
+				else
+				{
+					_sprite.setTexture(this->_tileset[0x100 * (i_tile < 0x80) + i_tile]);
+				}
+				
 				_sprite.setPosition(sf::Vector2f((i % 32)*8, (i / 32)*8));
 				this->_screenbuffer.draw(_sprite);
 			}
