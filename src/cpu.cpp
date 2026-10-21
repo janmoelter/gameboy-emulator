@@ -2695,7 +2695,7 @@ std::uint8_t cpu::handle_interrupts()
 		{
 			if (this->get_bit(static_cast<std::uint8_t>(i), IE_IF))
 			{
-				//std::cout << ">> Handle interrupt " << hex(2) << (int)static_cast<std::uint8_t>(i) << std::endl;
+				//std::cerr << ">> Handle interrupt " << hex(2) << (int)static_cast<std::uint8_t>(i) << std::endl;
 
 				this->_PUSH__U16(this->_registers.PC);
 				this->_registers.PC = cpu::INTERRUPT_VECTOR.at(i);
@@ -4311,19 +4311,19 @@ const std::uint8_t& cpu::SCF()
 
 void cpu::print_opcode(const cpu::OPCODE& opcode, const std::uint16_t& pc)
 {
-	std::cout << hex(4) << static_cast<int>(pc) << "   ────  " << " " << hex(2) << static_cast<int>(opcode) << ": " << cpu::OPCODE_MNEMONIC.at(opcode) << std::endl;
+	std::cerr << hex(4) << static_cast<int>(pc) << "   ────  " << " " << hex(2) << static_cast<int>(opcode) << ": " << cpu::OPCODE_MNEMONIC.at(opcode) << std::endl;
 }
 
 void cpu::print_opcode(const cpu::PREFIXED_OPCODE& prefixed_opcode, const std::uint16_t& pc)
 {
-	std::cout << "    " << "   ────  " << "*" << hex(2) << static_cast<int>(prefixed_opcode) << ": " << cpu::PREFIXED_OPCODE_MNEMONIC.at(prefixed_opcode) << std::endl;
+	std::cerr << "    " << "   ────  " << "*" << hex(2) << static_cast<int>(prefixed_opcode) << ": " << cpu::PREFIXED_OPCODE_MNEMONIC.at(prefixed_opcode) << std::endl;
 }
 
 void cpu::print_argument(const std::uint8_t& u8)
 {
 	if (this->_bus->CPU_OPS)
 	{
-		std::cout << "                                " << hex(2) << static_cast<int>(u8) << std::endl;
+		std::cerr << "                                " << hex(2) << static_cast<int>(u8) << std::endl;
 	}
 }
 
@@ -4331,7 +4331,7 @@ void cpu::print_argument(const std::uint16_t& u16)
 {
 	if (this->_bus->CPU_OPS)
 	{
-		std::cout << "                              " << hex(4) << static_cast<int>(u16) << std::endl;
+		std::cerr << "                              " << hex(4) << static_cast<int>(u16) << std::endl;
 	}
 }
 
@@ -4352,11 +4352,11 @@ void cpu::print_argument(const std::int8_t& s8)
 
 void cpu::registers::print(void) const
 {
-	std::cout << " ┌───────┬───────┬───────┬───────╥──────────┐" << std::endl;
-	std::cout << " │ A: " << hex(2) << static_cast<int>(this->A) << " │ B: " << hex(2) << static_cast<int>(this->B) << " │ D: " << hex(2) << static_cast<int>(this->D) << " │ H: " << hex(2) << static_cast<int>(this->H) << " ║ SP: " << hex(4) << static_cast<int>(this->SP) << " │" << std::endl;
-	std::cout << " ├───────┼───────┼───────┼───────╫──────────┤" << std::endl;
-	std::cout << " │ F: " << hex(2) << static_cast<int>(this->F) << " │ C: " << hex(2) << static_cast<int>(this->C) << " │ E: " << hex(2) << static_cast<int>(this->E) << " │ L: " << hex(2) << static_cast<int>(this->L) << " ║ PC: " << hex(4) << static_cast<int>(this->PC) << " │" << std::endl;
-	std::cout << " └───────┴───────┴───────┴───────╨──────────┘" << std::endl;
+	std::cerr << " ┌───────┬───────┬───────┬───────╥──────────┐" << std::endl;
+	std::cerr << " │ A: " << hex(2) << static_cast<int>(this->A) << " │ B: " << hex(2) << static_cast<int>(this->B) << " │ D: " << hex(2) << static_cast<int>(this->D) << " │ H: " << hex(2) << static_cast<int>(this->H) << " ║ SP: " << hex(4) << static_cast<int>(this->SP) << " │" << std::endl;
+	std::cerr << " ├───────┼───────┼───────┼───────╫──────────┤" << std::endl;
+	std::cerr << " │ F: " << hex(2) << static_cast<int>(this->F) << " │ C: " << hex(2) << static_cast<int>(this->C) << " │ E: " << hex(2) << static_cast<int>(this->E) << " │ L: " << hex(2) << static_cast<int>(this->L) << " ║ PC: " << hex(4) << static_cast<int>(this->PC) << " │" << std::endl;
+	std::cerr << " └───────┴───────┴───────┴───────╨──────────┘" << std::endl;
 }
 
 void cpu::run(void)
@@ -4379,7 +4379,7 @@ std::uint8_t cpu::next(void)
 		// Produce Gameboy Doctor Log
 		//
 		this->_bus->set_u8_memory_value(memory::$::LY, 0x90);
-
+		
 		// Format: `A:00 F:11 B:22 C:33 D:44 E:55 H:66 L:77 SP:8888 PC:9999 PCMEM:AA,BB,CC,DD`
 		std::cerr << "A:" << hex(2) << (int)this->_registers.A << " ";
 		std::cerr << "F:" << hex(2) << (int)this->_registers.F << " ";
