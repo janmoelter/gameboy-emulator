@@ -18,9 +18,9 @@ namespace gameboy
 		bus* _bus;
 		
 		std::uint8_t _zero = 0x00;
+		std::uint8_t _undefined = 0xFF;
 		
 		std::array<std::uint8_t, 0x2000> _vram = {0x00};
-		std::array<std::uint8_t, 0x2000> _xram = {0x00};
 		std::array<std::uint8_t, 0x1000> _wram0 = {0x00};
 		std::array<std::uint8_t, 0x7000> _wramn = {0x00};
 		std::array<std::uint8_t, 0x00A0> _oamram = {0x00};
@@ -106,6 +106,8 @@ namespace gameboy
 		std::uint8_t& get_value(const std::uint16_t&);
 		std::uint8_t& get_value(const $&);
 		
+		void set_value(const std::uint16_t&, const std::variant<std::uint8_t,std::uint16_t>&);
+		
 		std::span<std::uint8_t> BOOTROM;
 		std::span<std::uint8_t> ROM0;
 		std::span<std::uint8_t> ROMn;
@@ -118,6 +120,8 @@ namespace gameboy
 		std::span<std::uint8_t> IO;
 		std::span<std::uint8_t> HRAM;
 		std::span<std::uint8_t> IE;
+		
+		bool XRAM_enabled = false;
 		
 
 		void dump(std::span<std::uint8_t>);

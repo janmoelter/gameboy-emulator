@@ -51,6 +51,11 @@ void bus::load_cartridge(void)
 {
 	this->load_cartridge_rom(0);
 	this->load_cartridge_rom(1);
+	
+	if (this->_cartridge._ram_banks > 0)
+	{
+		this->load_cartridge_ram(0);
+	}
 }
 
 void bus::load_cartridge_rom(const std::uint8_t& n)
@@ -67,7 +72,12 @@ void bus::load_cartridge_rom(const std::uint8_t& n)
 
 void bus::load_cartridge_ram(const std::uint8_t& n)
 {
-	
+	this->_memory.XRAM = std::span(&this->_cartridge._ram[n * 0x2000], 0x2000);
+}
+
+void bus::enable_cartridge_ram(bool s)
+{
+	this->_memory.XRAM_enabled = s;
 }
 
 void bus::initialise_IO_registers(void)
@@ -190,6 +200,7 @@ const std::uint16_t& bus::advance(void)
 	return this->get_program_counter();
 }
 
+
 void bus::request_interrupt(const bus::INTERRUPT& i)
 {
 	const std::uint8_t& IF = this->get_u8_memory_value(memory::$::IF);
@@ -211,6 +222,7 @@ const std::uint16_t& bus::get_program_counter()
 {
 	return this->_cpu.PC();
 }
+
 
 std::uint8_t& bus::get_memory_value(const std::uint16_t& a)
 {
@@ -258,9 +270,13 @@ const std::uint16_t& bus::get_u16_memory_value(const memory::$& a)
 
 void bus::set_u8_memory_value(const std::uint16_t& a, const std::uint8_t& v)
 {
-	if (a > 0x8000)
+	if (a >= 0x8000)
 	{
 		*reinterpret_cast<std::uint8_t*>(&this->get_memory_value(a)) = v;
+	}
+	else
+	{
+		this->_cartridge._memory_bank_controller(a, v);
 	}
 }
 
@@ -271,7 +287,7 @@ void bus::set_u8_memory_value(const memory::$& a, const std::uint8_t& v)
 
 void bus::set_u16_memory_value(const std::uint16_t& a, const std::uint16_t& v)
 {
-	if (a > 0x8000)
+	if (a >= 0x8000)
 	{
 		*reinterpret_cast<std::uint16_t*>(&this->get_memory_value(a)) = v;
 	}

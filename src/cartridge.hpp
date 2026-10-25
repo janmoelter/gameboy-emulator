@@ -16,7 +16,7 @@ namespace gameboy
 		cartridge(std::ifstream&);
 		cartridge(void);
 		~cartridge(void);
-
+		
 		enum struct TYPE : std::uint8_t
 		{
 			ROM_Only = 0x00,
@@ -48,9 +48,9 @@ namespace gameboy
 			HuC3 = 0xFE,
 			HuC1_RAM_Battery = 0xFF,
 		};
-
+		
 	private:
-
+		
 		static const std::map<cartridge::TYPE, std::string> TYPE_DESCRIPTION;
 		static const std::map<std::uint8_t, std::string> OLD_LICENSEE;
 		static const std::map<std::uint8_t, std::string> NEW_LICENSEE;
@@ -64,6 +64,13 @@ namespace gameboy
 		std::string _title;
 		std::string _licensee;
 		bool _destination;
+		
+		
+		std::vector<std::uint8_t> _ram;
+		
+		void _memory_bank_controller(const std::uint16_t&, const std::uint8_t&);
+		std::uint8_t _memory_bank_controller_secondary_bank = 0x00;
+		bool _memory_bank_controller_banking_mode;
 
 	public:
 		

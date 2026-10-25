@@ -6,7 +6,6 @@ using namespace gameboy;
 memory::memory(void)
 {
 	this->VRAM = std::span(&this->_vram[0x0000], 0x2000);
-	this->XRAM = std::span(&this->_xram[0x0000], 0x2000);
 	this->WRAM0 = std::span(&this->_wram0[0x0000], 0x1000);
 	this->WRAMn = std::span(&this->_wramn[0x0000], 0x1000);
 	this->OAMRAM = std::span(&this->_oamram[0x0000], 0x00A0);
@@ -41,7 +40,14 @@ std::uint8_t& memory::get_value(const std::uint16_t& a)
 			return this->VRAM[a - 0x8000];
 			break;
 		case 0xA000 ... 0xBFFF: // XRAM
-			return this->XRAM[a - 0xA000];
+			if (this->XRAM_enabled)
+			{
+				return this->XRAM[a - 0xA000];
+			}
+			else
+			{
+				return this->_undefined;
+			}
 			break;
 		case 0xC000 ... 0xCFFF: // WRAM0
 			return this->WRAM0[a - 0xC000];

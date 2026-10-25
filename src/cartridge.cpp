@@ -289,7 +289,10 @@ cartridge::cartridge(std::ifstream& file) : rom::rom(file)
 			throw std::runtime_error("Unknown RAM size.");
 	}
 	this->_ram_size = 8 * (1 << 10) * this->_ram_banks;
-
+	
+	this->_ram = std::vector<std::uint8_t>(this->_ram_size);
+	
+	
 	if (this->_rom[0x014B] == 0x33)
 	{
 		this->_licensee = cartridge::NEW_LICENSEE.at(((this->_rom[0x0144]-0x30) << 8) + (this->_rom[0x0145]-0x30));
@@ -302,6 +305,9 @@ cartridge::cartridge(std::ifstream& file) : rom::rom(file)
 	this->_title = std::string(reinterpret_cast<char*>(&this->_rom[0x0134]));
 
 	this->_destination = this->_rom[0x014A];
+	
+	
+	
 
 	std::cout << "Cartridge" << std::endl;
 	std::cout << "  Title: " << this->_title << std::endl;
@@ -315,13 +321,122 @@ cartridge::cartridge(std::ifstream& file) : rom::rom(file)
 		std::cout << "  RAM size: " << std::dec << (this->_ram_size / (1 << 10)) << "KiB" << std::endl;
 	}
 	std::cout << std::endl;
-
-
-
-
 }
 
 cartridge::~cartridge()
 {
 
+}
+
+void cartridge::_memory_bank_controller(const std::uint16_t& a, const std::uint8_t& v)
+{
+	switch (this->_type)
+	{
+		case cartridge::TYPE::ROM_Only:
+		{
+			break;
+		}
+		case cartridge::TYPE::MBC1:
+		case cartridge::TYPE::MBC1_RAM:
+		case cartridge::TYPE::MBC1_RAM_Battery:
+		{
+			switch (a)
+			{
+				case 0x0000 ... 0x1FFF:
+				{
+					if ((v & 0x0F) == 0x0A)
+					{
+						this->_bus->enable_cartridge_ram(true);
+					}
+					else
+					{
+						this->_bus->enable_cartridge_ram(false);
+					}
+					break;
+				}
+				case 0x2000 ... 0x3FFF:
+				{
+					std::uint8_t n = std::max(v & 0x1F, 0x01) & (this->_rom_banks - 1);
+					this->_bus->load_cartridge_rom((this->_memory_bank_controller_secondary_bank << 5) + n);
+					
+					break;
+				}
+				case 0x4000 ... 0x5FFF:
+				{
+					std::uint8_t n = v & 0x03;
+					
+					if (this->_memory_bank_controller_banking_mode)
+					{
+						this->_memory_bank_controller_secondary_bank = n;
+					}
+					else
+					{
+						this->_bus->load_cartridge_ram(n);
+					}
+					
+					break;
+				}
+				case 0x6000 ... 0x7FFF:
+				{
+					this->_memory_bank_controller_banking_mode = v & 0x01;
+					
+					break;
+				}
+			}
+			
+			break;
+		}
+		case cartridge::TYPE::MBC5:
+		case cartridge::TYPE::MBC5_RAM:
+		case cartridge::TYPE::MBC5_RAM_Battery:
+		{
+			switch (a)
+			{
+				case 0x0000 ... 0x1FFF:
+				{
+					if ((v & 0x0F) == 0x0A)
+					{
+						this->_bus->enable_cartridge_ram(true);
+					}
+					else
+					{
+						this->_bus->enable_cartridge_ram(false);
+					}
+					break;
+				}
+				case 0x2000 ... 0x2FFF:
+				{
+					std::uint8_t n = v;
+					this->_bus->load_cartridge_rom((this->_memory_bank_controller_secondary_bank << 8) + n);
+					
+					break;
+				}
+				case 0x3000 ... 0x3FFF:
+				{
+					this->_memory_bank_controller_secondary_bank = v & 0x01;
+					
+					break;
+				}
+				case 0x4000 ... 0x5FFF:
+				{
+					std::uint8_t n = v & 0x0F;
+					this->_bus->load_cartridge_ram(n);
+					
+					break;
+				}
+				default:
+				{
+					break;
+				}
+			}
+			
+			break;
+		}
+		default:
+		{
+			throw std::logic_error("<" + cartridge::TYPE_DESCRIPTION.at(this->_type) + ">");
+			
+			break;
+		}
+	}
 }
