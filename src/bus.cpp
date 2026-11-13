@@ -111,7 +111,7 @@ void bus::initialise_IO_registers(void)
 	this->set_u8_memory_value(memory::$::NR50, 0x77);
 	this->set_u8_memory_value(memory::$::NR51, 0xF3);
 	this->set_u8_memory_value(memory::$::NR52, 0xF1);
-	this->set_u8_memory_value(memory::$::LCDC, 0b00010001); // == 0x91;
+	this->set_u8_memory_value(memory::$::LCDC, 0b10010001); // == 0x91;
 	this->set_u8_memory_value(memory::$::STAT, 0x85);
 	this->set_u8_memory_value(memory::$::SCY, 0x00);
 	this->set_u8_memory_value(memory::$::SCX, 0x00);
@@ -187,7 +187,7 @@ const std::uint16_t& bus::advance(void)
 	
 	this->_BOOTPHASE = !static_cast<bool>(this->get_u8_memory_value(memory::$::BOOTROMCTRL));
 
-	if(this->get_u8_memory_value(this->_cpu.PC()) == 0x18 & this->get_u8_memory_value(this->_cpu.PC() + 1) == 0xFE)
+	if(this->get_u8_memory_value(this->_cpu.PC()) == 0x18 && this->get_u8_memory_value(this->_cpu.PC() + 1) == 0xFE)
 	{
 		this->TERMINATE = true;
 	}

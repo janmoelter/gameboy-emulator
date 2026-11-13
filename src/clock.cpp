@@ -58,7 +58,7 @@ void clock::increment(const std::uint8_t& cycles)
 	{
 		this->_ly_ticks += 1;
 		LY += 1;
-		LY %= 0x99;
+		LY %= 0x9A;
 		this->_bus->set_u8_memory_value(memory::$::LY, LY);
 		
 		if (LY == 0x90)
@@ -76,13 +76,13 @@ void clock::increment(const std::uint8_t& cycles)
 		if (TAC & 0b0100)
 		{
 			TIMA += 1;
-			this->_bus->set_u8_memory_value(memory::$::TIMA, TIMA);
-
+			
 			if (TIMA == 0x00)
 			{
 				TIMA = TMA;
 				this->_bus->request_interrupt(bus::INTERRUPT::Timer);
 			}
+			this->_bus->set_u8_memory_value(memory::$::TIMA, TIMA);
 		}
 	}
 
