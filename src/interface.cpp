@@ -43,12 +43,12 @@ void interface::poll_events(void)
 					case sf::Keyboard::Escape:
 						this->_window.close();
 						break;
-					case 47:
-						this->SCREEN_ZOOM += 0.1;
+					case sf::Keyboard::Add:
+						this->SCREEN_ZOOM = std::min(this->SCREEN_ZOOM + 0.1, 5.);
 						this->resize_window();
 						break;
-					case 52:
-						this->SCREEN_ZOOM -= 0.1;
+					case sf::Keyboard::Subtract:
+						this->SCREEN_ZOOM = std::max(this->SCREEN_ZOOM - 0.1, 1.);
 						this->resize_window();
 						break;
 					case sf::Keyboard::Left:
