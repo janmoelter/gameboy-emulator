@@ -83,7 +83,7 @@ bool _PRINT_HELP = false;
 
 void parse_args(int argc, char** argv)
 {
-	const char* const short_opts = "w:c:bdshV";
+	const char* const short_opts = "r:c:bdshV";
 	const option long_opts[] = {
 		{"boot-rom", required_argument, nullptr, 'r'},
 		{"cartridge", required_argument, nullptr, 'c'},
@@ -161,7 +161,6 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-		//throw std::runtime_error("Boot ROM: " + _BOOT_ROM.u8string() + " does not exist.");
 		_SKIP_BOOTROM = true;
 	}
 
