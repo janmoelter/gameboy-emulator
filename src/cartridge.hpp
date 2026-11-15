@@ -53,7 +53,7 @@ namespace gameboy
 		
 		static const std::map<cartridge::TYPE, std::string> TYPE_DESCRIPTION;
 		static const std::map<std::uint8_t, std::string> OLD_LICENSEE;
-		static const std::map<std::uint8_t, std::string> NEW_LICENSEE;
+		static const std::map<std::string, std::string> NEW_LICENSEE;
 
 		cartridge::TYPE _type;
 		std::uint32_t _size;
