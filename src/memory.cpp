@@ -30,11 +30,25 @@ std::uint8_t& memory::get_value(const std::uint16_t& a)
 			}
 			else
 			{
-				return this->ROM0[a - 0x0000];
+				if (this->ROM0.size() == 0x4000)
+				{
+					return this->ROM0[a - 0x0000];
+				}
+				else
+				{
+					return this->_undefined;
+				}
 			}
 			break;
 		case 0x4000 ... 0x7FFF: // ROMn
-			return this->ROMn[a - 0x4000];
+			if (this->ROMn.size() == 0x4000)
+			{
+				return this->ROMn[a - 0x4000];
+			}
+			else
+			{
+				return this->_undefined;
+			}
 			break;
 		case 0x8000 ... 0x9FFF: // VRAM
 			return this->VRAM[a - 0x8000];

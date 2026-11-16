@@ -153,11 +153,18 @@ int main(int argc, char **argv)
 
 	// Read boot rom
 	gameboy::rom bootrom;
-	if (std::filesystem::exists(_BOOT_ROM))
+	if (!_BOOT_ROM.empty())
 	{
-		std::ifstream boot_rom_file(_BOOT_ROM, std::ios::in | std::ios::binary);
-		bootrom = gameboy::rom(boot_rom_file);
-		boot_rom_file.close();
+		if (std::filesystem::exists(_BOOT_ROM))
+		{
+			std::ifstream boot_rom_file(_BOOT_ROM, std::ios::in | std::ios::binary);
+			bootrom = gameboy::rom(boot_rom_file);
+			boot_rom_file.close();
+		}
+		else
+		{
+			throw std::runtime_error("Boot ROM: " + _BOOT_ROM.string() + " does not exist.");
+		}
 	}
 	else
 	{
@@ -166,15 +173,18 @@ int main(int argc, char **argv)
 
 	// Read cartridge
 	gameboy::cartridge cartridge;
-	if (std::filesystem::exists(_CARTRIDGE))
+	if (!_CARTRIDGE.empty())
 	{
-		std::ifstream cartridge_file(_CARTRIDGE, std::ios::in | std::ios::binary);
-		cartridge = gameboy::cartridge(cartridge_file);
-		cartridge_file.close();
-	}
-	else
-	{
-		throw std::runtime_error("Cartridge: " + _CARTRIDGE.string() + " does not exist.");
+		if (std::filesystem::exists(_CARTRIDGE))
+		{
+			std::ifstream cartridge_file(_CARTRIDGE, std::ios::in | std::ios::binary);
+			cartridge = gameboy::cartridge(cartridge_file);
+			cartridge_file.close();
+		}
+		else
+		{
+			throw std::runtime_error("Cartridge: " + _CARTRIDGE.string() + " does not exist.");
+		}
 	}
 
 	// Initialise clock

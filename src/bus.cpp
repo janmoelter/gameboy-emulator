@@ -62,17 +62,26 @@ void bus::load_cartridge_rom(const std::uint8_t& n)
 {
 	if (n == 0)
 	{
-		this->_memory.ROM0 = std::span(&this->_cartridge._rom[0x0000], 0x4000);
+		if (this->_cartridge._rom.size() >= 0x4000)
+		{
+			this->_memory.ROM0 = std::span(&this->_cartridge._rom[0x0000], 0x4000);
+		}
 	}
 	else
 	{
-		this->_memory.ROMn = std::span(&this->_cartridge._rom[n * 0x4000], 0x4000);
+		if (this->_cartridge._rom.size() >= (n+1) * 0x4000)
+		{
+			this->_memory.ROMn = std::span(&this->_cartridge._rom[n * 0x4000], 0x4000);
+		}
 	}
 }
 
 void bus::load_cartridge_ram(const std::uint8_t& n)
 {
-	this->_memory.XRAM = std::span(&this->_cartridge._ram[n * 0x2000], 0x2000);
+	if (this->_cartridge._ram.size() >= (n+1) * 0x2000)
+	{
+		this->_memory.XRAM = std::span(&this->_cartridge._ram[n * 0x2000], 0x2000);
+	}
 }
 
 void bus::enable_cartridge_ram(bool s)
