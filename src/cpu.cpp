@@ -2504,7 +2504,7 @@ std::uint8_t cpu::execute_instruction(const bool& print_opcodes)
 					cycles += this->SET__n_R(7, REGISTER::A);
 					break;
 				default:
-					std::cerr << hex(4) << static_cast<int>(this->_registers.PC) << "\t" << "Unknown prefixed opcode: " << hex(2) << static_cast<int>(prefixed_opcode) << std::endl;
+					std::cerr << hex(4) << static_cast<int>(this->_registers.PC) << "\t" << "Unknown prefixed opcode: " << hex(2) << static_cast<int>(prefixed_opcode) << ENDL;
 					break;
 			}
 
@@ -2674,7 +2674,7 @@ std::uint8_t cpu::execute_instruction(const bool& print_opcodes)
 			cycles += this->RST__nH(0x38);
 			break;
 		default:
-			std::cerr << hex(4) << static_cast<int>(this->_registers.PC) << "\t" << "Unknown opcode: " << hex(2) << static_cast<int>(opcode) << std::endl;
+			std::cerr << hex(4) << static_cast<int>(this->_registers.PC) << "\t" << "Unknown opcode: " << hex(2) << static_cast<int>(opcode) << ENDL;
 			throw std::invalid_argument("Unknown opcode.");
 			break;
 	}
@@ -2695,7 +2695,7 @@ std::uint8_t cpu::handle_interrupts()
 		{
 			if (this->get_bit(static_cast<std::uint8_t>(i), IE_IF))
 			{
-				//std::cerr << ">> Handle interrupt " << hex(2) << (int)static_cast<std::uint8_t>(i) << std::endl;
+				//std::cerr << ">> Handle interrupt " << hex(2) << (int)static_cast<std::uint8_t>(i) << ENDL;
 
 				this->_PUSH__U16(this->_registers.PC);
 				this->_registers.PC = cpu::INTERRUPT_VECTOR.at(i);
@@ -4311,19 +4311,19 @@ const std::uint8_t& cpu::SCF()
 
 void cpu::print_opcode(const cpu::OPCODE& opcode, const std::uint16_t& pc)
 {
-	std::cerr << hex(4) << static_cast<int>(pc) << "   ────  " << " " << hex(2) << static_cast<int>(opcode) << ": " << cpu::OPCODE_MNEMONIC.at(opcode) << std::endl;
+	std::cerr << hex(4) << static_cast<int>(pc) << "   ────  " << " " << hex(2) << static_cast<int>(opcode) << ": " << cpu::OPCODE_MNEMONIC.at(opcode) << ENDL;
 }
 
 void cpu::print_opcode(const cpu::PREFIXED_OPCODE& prefixed_opcode, const std::uint16_t& pc)
 {
-	std::cerr << "    " << "   ────  " << "*" << hex(2) << static_cast<int>(prefixed_opcode) << ": " << cpu::PREFIXED_OPCODE_MNEMONIC.at(prefixed_opcode) << std::endl;
+	std::cerr << "    " << "   ────  " << "*" << hex(2) << static_cast<int>(prefixed_opcode) << ": " << cpu::PREFIXED_OPCODE_MNEMONIC.at(prefixed_opcode) << ENDL;
 }
 
 void cpu::print_argument(const std::uint8_t& u8)
 {
 	if (this->_bus->CPU_OPS)
 	{
-		std::cerr << "                                " << hex(2) << static_cast<int>(u8) << std::endl;
+		std::cerr << "                                " << hex(2) << static_cast<int>(u8) << ENDL;
 	}
 }
 
@@ -4331,7 +4331,7 @@ void cpu::print_argument(const std::uint16_t& u16)
 {
 	if (this->_bus->CPU_OPS)
 	{
-		std::cerr << "                              " << hex(4) << static_cast<int>(u16) << std::endl;
+		std::cerr << "                              " << hex(4) << static_cast<int>(u16) << ENDL;
 	}
 }
 
@@ -4341,22 +4341,22 @@ void cpu::print_argument(const std::int8_t& s8)
 	{
 		if (s8 >= 0)
 		{
-			std::cerr << "                               +" << hex(2) << static_cast<int>(s8) << std::endl;
+			std::cerr << "                               +" << hex(2) << static_cast<int>(s8) << ENDL;
 		}
 		else
 		{
-			std::cerr << "                               -" << hex(2) << static_cast<int>(-s8) << std::endl;
+			std::cerr << "                               -" << hex(2) << static_cast<int>(-s8) << ENDL;
 		}
 	}
 }
 
 void cpu::registers::print(void) const
 {
-	std::cerr << " ┌───────┬───────┬───────┬───────╥──────────┐" << std::endl;
-	std::cerr << " │ A: " << hex(2) << static_cast<int>(this->A) << " │ B: " << hex(2) << static_cast<int>(this->B) << " │ D: " << hex(2) << static_cast<int>(this->D) << " │ H: " << hex(2) << static_cast<int>(this->H) << " ║ SP: " << hex(4) << static_cast<int>(this->SP) << " │" << std::endl;
-	std::cerr << " ├───────┼───────┼───────┼───────╫──────────┤" << std::endl;
-	std::cerr << " │ F: " << hex(2) << static_cast<int>(this->F) << " │ C: " << hex(2) << static_cast<int>(this->C) << " │ E: " << hex(2) << static_cast<int>(this->E) << " │ L: " << hex(2) << static_cast<int>(this->L) << " ║ PC: " << hex(4) << static_cast<int>(this->PC) << " │" << std::endl;
-	std::cerr << " └───────┴───────┴───────┴───────╨──────────┘" << std::endl;
+	std::cerr << " ┌───────┬───────┬───────┬───────╥──────────┐" << ENDL;
+	std::cerr << " │ A: " << hex(2) << static_cast<int>(this->A) << " │ B: " << hex(2) << static_cast<int>(this->B) << " │ D: " << hex(2) << static_cast<int>(this->D) << " │ H: " << hex(2) << static_cast<int>(this->H) << " ║ SP: " << hex(4) << static_cast<int>(this->SP) << " │" << ENDL;
+	std::cerr << " ├───────┼───────┼───────┼───────╫──────────┤" << ENDL;
+	std::cerr << " │ F: " << hex(2) << static_cast<int>(this->F) << " │ C: " << hex(2) << static_cast<int>(this->C) << " │ E: " << hex(2) << static_cast<int>(this->E) << " │ L: " << hex(2) << static_cast<int>(this->L) << " ║ PC: " << hex(4) << static_cast<int>(this->PC) << " │" << ENDL;
+	std::cerr << " └───────┴───────┴───────┴───────╨──────────┘" << ENDL;
 }
 
 void cpu::run(void)
@@ -4395,7 +4395,7 @@ std::uint8_t cpu::next(void)
 		std::cerr << hex(2) << (int)this->_bus->get_u8_memory_value(this->_registers.PC+0) << ",";
 		std::cerr << hex(2) << (int)this->_bus->get_u8_memory_value(this->_registers.PC+1) << ",";
 		std::cerr << hex(2) << (int)this->_bus->get_u8_memory_value(this->_registers.PC+2) << ",";
-		std::cerr << hex(2) << (int)this->_bus->get_u8_memory_value(this->_registers.PC+3) << '\n';
+		std::cerr << hex(2) << (int)this->_bus->get_u8_memory_value(this->_registers.PC+3) << ENDL;
 		// ---
 	}
 
@@ -4405,7 +4405,7 @@ std::uint8_t cpu::next(void)
 	//std::cerr << "N=" << hex(2) << (int)this->get_flag(cpu::FLAG::N) << ", ";
 	//std::cerr << "H=" << hex(2) << (int)this->get_flag(cpu::FLAG::H) << ", ";
 	//std::cerr << "C=" << hex(2) << (int)this->get_flag(cpu::FLAG::C) << "";
-	//std::cerr << std::endl;
+	//std::cerr << ENDL;
 
 	return cycles;
 }

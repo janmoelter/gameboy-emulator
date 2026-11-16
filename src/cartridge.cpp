@@ -322,18 +322,18 @@ cartridge::cartridge(std::ifstream& file) : rom::rom(file)
 	
 	
 
-	std::cout << "Cartridge" << std::endl;
-	std::cout << "  Title: " << this->_title << std::endl;
-	std::cout << "  Licensee: " << this->_licensee << std::endl;
-	std::cout << "  Destination: " << (this->_destination ? "World" : "Japan") << std::endl;
-	std::cout << "  Type: " << cartridge::TYPE_DESCRIPTION.at(this->_type) << std::endl;
-	std::cout << "  Size: " << std::dec << static_cast<int>(this->_size) << std::endl;
-	std::cout << "  ROM size: " << std::dec << (this->_rom_size / (1 << 10)) << "KiB" << std::endl;
+	std::cout << "Cartridge" << ENDL;
+	std::cout << "  Title: " << this->_title << ENDL;
+	std::cout << "  Licensee: " << this->_licensee << ENDL;
+	std::cout << "  Destination: " << (this->_destination ? "World" : "Japan") << ENDL;
+	std::cout << "  Type: " << cartridge::TYPE_DESCRIPTION.at(this->_type) << ENDL;
+	std::cout << "  Size: " << std::dec << static_cast<int>(this->_size) << ENDL;
+	std::cout << "  ROM size: " << std::dec << (this->_rom_size / (1 << 10)) << "KiB" << ENDL;
 	if (this->_ram_banks > 0)
 	{
-		std::cout << "  RAM size: " << std::dec << (this->_ram_size / (1 << 10)) << "KiB" << std::endl;
+		std::cout << "  RAM size: " << std::dec << (this->_ram_size / (1 << 10)) << "KiB" << ENDL;
 	}
-	std::cout << std::endl;
+	std::cout << ENDL;
 }
 
 cartridge::~cartridge()

@@ -34,7 +34,7 @@ void interface::poll_events(void)
 		switch (_event.type)
 		{
 			case sf::Event::Closed:
-				//std::cout << "interface: display closed" << std::endl;
+				//std::cout << "interface: display closed" << ENDL;
 				this->_window.close();
 				break;
 			case sf::Event::EventType::KeyPressed:
@@ -53,39 +53,39 @@ void interface::poll_events(void)
 						break;
 					case sf::Keyboard::Left:
 						this->_bus->request_joypadinput(bus::JOYPAD::Left);
-						//std::cout << "interface: joypad press - Left" << std::endl;
+						//std::cout << "interface: joypad press - Left" << ENDL;
 						break;
 					case sf::Keyboard::Down:
 						this->_bus->request_joypadinput(bus::JOYPAD::Down);
-						//std::cout << "interface: joypad press - Down" << std::endl;
+						//std::cout << "interface: joypad press - Down" << ENDL;
 						break;
 					case sf::Keyboard::Right:
 						this->_bus->request_joypadinput(bus::JOYPAD::Right);
-						//std::cout << "interface: joypad press - Right" << std::endl;
+						//std::cout << "interface: joypad press - Right" << ENDL;
 						break;
 					case sf::Keyboard::Up:
 						this->_bus->request_joypadinput(bus::JOYPAD::Up);
-						//std::cout << "interface: joypad press - Up" << std::endl;
+						//std::cout << "interface: joypad press - Up" << ENDL;
 						break;
 					case sf::Keyboard::A:
 						this->_bus->request_joypadinput(bus::JOYPAD::A);
-						//std::cout << "interface: joypad press - A" << std::endl;
+						//std::cout << "interface: joypad press - A" << ENDL;
 						break;
 					case sf::Keyboard::B:
 						this->_bus->request_joypadinput(bus::JOYPAD::B);
-						//std::cout << "interface: joypad press - B" << std::endl;
+						//std::cout << "interface: joypad press - B" << ENDL;
 						break;
 					case sf::Keyboard::Enter:
 						this->_bus->request_joypadinput(bus::JOYPAD::Select);
-						//std::cout << "interface: joypad press - Select" << std::endl;
+						//std::cout << "interface: joypad press - Select" << ENDL;
 						break;
 					case sf::Keyboard::Space:
 						this->_bus->request_joypadinput(bus::JOYPAD::Start);
-						//std::cout << "interface: joypad press - Start" << std::endl;
+						//std::cout << "interface: joypad press - Start" << ENDL;
 						break;
 					default:
 						this->_bus->request_joypadinput(bus::JOYPAD::None);
-						//std::cout << "interface: key press - " << _event.key.code << std::endl;
+						//std::cout << "interface: key press - " << _event.key.code << ENDL;
 						break;
 				}
 				break;

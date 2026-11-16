@@ -105,7 +105,7 @@ void memory::dump(std::span<std::uint8_t> memory_view)
 		auto i = std::distance(memory_view.begin(), it);
 		if (i % 0x10 == 0)
 		{
-			std::cout << std::endl;
+			std::cout << ENDL;
 			std::cout << hex(4) << i;
 			std::cout << "  ";
 		}
@@ -113,7 +113,7 @@ void memory::dump(std::span<std::uint8_t> memory_view)
 		std::cout << " " << hex(2) << static_cast<int>(*it);
 	}
 
-	std::cout << std::endl;
+	std::cout << ENDL;
 }
 
 void memory::dump()

@@ -172,8 +172,8 @@ const std::uint16_t& bus::advance(void)
 	//
 	//if (IF > 0)
 	//{
-	//	std::cout << "Enabled:   " << std::bitset<8>(IE) << std::endl;
-	//	std::cout << "Requested: " << std::bitset<8>(IF) << std::endl;
+	//	std::cout << "Enabled:   " << std::bitset<8>(IE) << ENDL;
+	//	std::cout << "Requested: " << std::bitset<8>(IF) << ENDL;
 	//}
 
 

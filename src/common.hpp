@@ -6,7 +6,10 @@
 #define hex(n) std::right << std::setw(n) << std::setfill('0') << std::hex << std::uppercase
 #define dec(n) std::right << std::setw(n) << std::setfill(' ') << std::dec << std::uppercase
 
-#define STD_COUT__LINE std::cout << __LINE__ << std::endl;
+#define STD_COUT__LINE std::cout << __LINE__ << ENDL;
+
+#define ENDL "\n"
+
 
 #include <cstdint>
 

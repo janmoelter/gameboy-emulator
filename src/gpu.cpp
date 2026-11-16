@@ -60,7 +60,7 @@ void gpu::build_tileset(void)
 			this->_tileset[i] = this->render_tile(i);
 		}
 
-		//std::cout << "gpu: Tileset built." << std::endl;
+		//std::cout << "gpu: Tileset built." << ENDL;
 	}
 }
 
@@ -128,7 +128,7 @@ void gpu::render_screen(void)
 		
 		const std::uint8_t& SCY = this->_bus->get_u8_memory_value(memory::$::SCY);
 		const std::uint8_t& SCX = this->_bus->get_u8_memory_value(memory::$::SCX);
-		//std::cout << "SCX: " << hex(2) << (int)SCX << "   " << "SCY: " << hex(2) << (int)SCY << std::endl;
+		//std::cout << "SCX: " << hex(2) << (int)SCX << "   " << "SCY: " << hex(2) << (int)SCY << ENDL;
 
 		sf::IntRect _window_rectangle(SCX, SCY, this->SCREEN_WIDTH, this->SCREEN_HEIGHT);
 		

@@ -29,7 +29,7 @@ public:
 		_T_stop = std::chrono::steady_clock::now();
 
 		auto dT = _T_stop - _T_start;
-		std::cout << dT.count() << std::endl;
+		std::cout << dT.count() << ENDL;
 	}
 
 private:
@@ -44,7 +44,7 @@ void print_array(std::array<std::uint8_t, 0x4> x)
 	{
 		std::cout << hex(2) << x[i] << " ";
 	}
-	std::cout << std::endl;
+	std::cout << ENDL;
 }
 
 std::uint16_t reverse_endianness(std::uint16_t& u16)
@@ -55,23 +55,23 @@ std::uint16_t reverse_endianness(std::uint16_t& u16)
 
 void print_version()
 {
-	std::cout << "Nintendo Game Boy™ Emulator (Compilation: " << __DATE__ << " @ " << __TIME__ << ")" << std::endl;
+	std::cout << "Nintendo Game Boy™ Emulator (Compilation: " << __DATE__ << " @ " << __TIME__ << ")" << ENDL;
 }
 
 void print_help(int argc, char** argv)
 {
-	std::cout << "Usage: " << std::string(argv[0]) << " ..." << std::endl;
+	std::cout << "Usage: " << std::string(argv[0]) << " ..." << ENDL;
 
 
-	std::cout << "" << std::endl;
-	std::cout << "Options:" << std::endl;
+	std::cout << "" << ENDL;
+	std::cout << "Options:" << ENDL;
 	//           "****************************************************************************************************"
-	std::cout << "  -r, --boot-rom=FILE            Boot rom."                                                           << std::endl;
-	std::cout << "  -c, --cartridge=FILE           Cartridge."                                                          << std::endl;
-	std::cout << "  -b, --disable-display          Disable graphics display."                                           << std::endl;
-	std::cout << "  -d, --debug                    Enable debug mode."                                                  << std::endl;
-	std::cout << ""                                                                                                     << std::endl;
-	std::cout << "  -h, --help                     Print this help."                                                    << std::endl;
+	std::cout << "  -r, --boot-rom=FILE            Boot rom."                                                           << ENDL;
+	std::cout << "  -c, --cartridge=FILE           Cartridge."                                                          << ENDL;
+	std::cout << "  -b, --disable-display          Disable graphics display."                                           << ENDL;
+	std::cout << "  -d, --debug                    Enable debug mode."                                                  << ENDL;
+	std::cout << ""                                                                                                     << ENDL;
+	std::cout << "  -h, --help                     Print this help."                                                    << ENDL;
 }
 
 std::filesystem::path _BOOT_ROM;
@@ -145,8 +145,7 @@ int main(int argc, char **argv)
 	}
 
 	print_version();
-	std::cout << std::endl;
-	std::cout << std::endl;
+	std::cout << ENDL << ENDL;
 
 
 	using namespace std::chrono_literals;
@@ -211,7 +210,7 @@ int main(int argc, char **argv)
 
 	std::cout << "Initialisation complete. Waiting to start execution...";
 	std::cin.get();
-	std::cout << std::endl << std::endl;
+	std::cout << ENDL << ENDL;
 
 	// Load memory & register dumps
 	if (false)
@@ -252,7 +251,7 @@ int main(int argc, char **argv)
 				bus.CPU_OPS = true;
 				std::cout << "---> " << hex(4) << PC;
 				std::cin.get();
-				std::cout << std::endl;
+				std::cout << ENDL;
 			}
 		}
 		
@@ -265,7 +264,7 @@ int main(int argc, char **argv)
 		}
 	}
 
-	std::cout << "Execution has terminated." << std::endl;
+	std::cout << "Execution has terminated." << ENDL;
 	std::cin.get();
 
 	// Create memory & register dumps
