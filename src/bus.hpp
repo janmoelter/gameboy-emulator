@@ -45,14 +45,12 @@ namespace gameboy
 
 		interface& _interface;
 
-		//bool _BOOTPHASE = true;
-
-		const std::uint16_t& get_program_counter();
+		bool _BOOTPHASE = true;
 
 		std::uint8_t& get_memory_value(const std::uint16_t&);
 
 	public:
-		bool _BOOTPHASE = true;
+		const std::uint16_t& get_program_counter();
 
 		void initialise_system(void);
 

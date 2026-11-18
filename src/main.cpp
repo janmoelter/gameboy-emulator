@@ -232,31 +232,61 @@ int main(int argc, char **argv)
 		bus.skip_bootrom();
 	}
 
-	std::uint16_t PC;
-	std::set<std::uint16_t> BREAK_POINTS = {}; // 0xC317, 0xC227, 0x0066
+
+	std::set<std::uint16_t> BREAK_POINTS = {}; // 0x0100
 	bool DEBUG_STEPS = false;
-
-
+	std::string DEBUG_COMMAND = "";
+	
+	
+	std::uint16_t PC = bus.get_program_counter();
+	
+	
 	while (!bus.TERMINATE)
 	{
-		PC = bus.advance();
-
-		if (DEBUG_STEPS)
+		if (!DEBUG_STEPS)
 		{
-			std::cin.get();
-		}
-		
-		if (!DEBUG_STEPS && BREAK_POINTS.find(PC) != BREAK_POINTS.end())
-		{
-			if (!bus._BOOTPHASE)
+			if (BREAK_POINTS.contains(PC))
 			{
 				DEBUG_STEPS = true;
 				bus.CPU_OPS = true;
-				std::cout << "---> " << hex(4) << PC;
-				std::cin.get();
-				std::cout << ENDL;
+				
+				std::cout << "Entering debugging mode..." << ENDL;
+				
+				continue;
 			}
 		}
+		else
+		{
+			std::cout << "" << hex(4) << PC << " > " << std::flush;
+			std::getline(std::cin, DEBUG_COMMAND);
+			
+			if (DEBUG_COMMAND == "step" || DEBUG_COMMAND == "s" || DEBUG_COMMAND == "")
+			{
+				
+			}
+			else if (DEBUG_COMMAND == "continue" || DEBUG_COMMAND == "c")
+			{
+				DEBUG_STEPS = false;
+				bus.CPU_OPS = false;
+				
+				std::cout << ENDL << ENDL;
+			}
+			else if (DEBUG_COMMAND == "kill")
+			{
+				bus.TERMINATE = true;
+				
+				std::cout << ENDL << ENDL;
+				
+				continue;
+			}
+			else
+			{
+				continue;
+			}
+		}
+		
+		PC = bus.advance();
+		
 		
 		// Read Serial Output
 		if (bus.get_u8_memory_value(0xFF02) == 0x81)
