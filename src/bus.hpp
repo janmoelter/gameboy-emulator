@@ -30,6 +30,7 @@ namespace gameboy
 		bool CPU_OPS = false;
 		bool ENABLE_DISPLAY = true;
 		bool THROTTLING = true;
+		float SPEED_MULTIPLIER = 1.0;
 
 		bool TERMINATE = false;
 

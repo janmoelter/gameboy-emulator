@@ -69,6 +69,7 @@ void print_help(int argc, char** argv)
 	std::cout << "  -r, --boot-rom=FILE            Boot rom."                                                           << ENDL;
 	std::cout << "  -c, --cartridge=FILE           Cartridge."                                                          << ENDL;
 	std::cout << "  -b, --disable-display          Disable graphics display."                                           << ENDL;
+	std::cout << "  -s, --speed-multiplier=FLOAT   Emulation speed multiplier."                                         << ENDL;
 	std::cout << "  -d, --debug                    Enable debug mode."                                                  << ENDL;
 	std::cout << ""                                                                                                     << ENDL;
 	std::cout << "  -h, --help                     Print this help."                                                    << ENDL;
@@ -77,19 +78,20 @@ void print_help(int argc, char** argv)
 std::filesystem::path _BOOT_ROM;
 std::filesystem::path _CARTRIDGE;
 bool _ENABLE_GRAPHICS = true;
+float _SPEED_MULTIPLIER = 1.0;
 bool _DEBUG_MODE = false;
 bool _SKIP_BOOTROM = false;
 bool _PRINT_HELP = false;
 
 void parse_args(int argc, char** argv)
 {
-	const char* const short_opts = "r:c:bdshV";
+	const char* const short_opts = "r:c:bs:dhV";
 	const option long_opts[] = {
 		{"boot-rom", required_argument, nullptr, 'r'},
 		{"cartridge", required_argument, nullptr, 'c'},
 		{"disable-display", no_argument, nullptr, 'b'},
+		{"speed-multiplier", no_argument, nullptr, 's'},
 		{"debug", no_argument, nullptr, 'd'},
-		{"skip-boot-rom", no_argument, nullptr, 's'},
 		{"help", no_argument, nullptr, 'h'},
 		{"version", no_argument, nullptr, 'V'},
 		{nullptr, no_argument, nullptr, 0}
@@ -115,11 +117,11 @@ void parse_args(int argc, char** argv)
 			case 'b':
 				_ENABLE_GRAPHICS = false;
 				break;
+			case 's':
+				_SPEED_MULTIPLIER = std::stof(optarg);
+				break;
 			case 'd':
 				_DEBUG_MODE = true;
-				break;
-			case 's':
-				_SKIP_BOOTROM = true;
 				break;
 			case 'V':
 				break;
@@ -204,6 +206,7 @@ int main(int argc, char **argv)
 	bus.DEBUG_MODE = _DEBUG_MODE;
 	bus.ENABLE_DISPLAY = _ENABLE_GRAPHICS;
 	bus.THROTTLING = !_DEBUG_MODE;
+	bus.SPEED_MULTIPLIER = _SPEED_MULTIPLIER;
 
 	bus.initialise_system();
 

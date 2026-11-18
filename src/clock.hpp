@@ -20,7 +20,7 @@ namespace gameboy
 
 		std::uint64_t _cycles = 0;
 
-		const std::uint32_t _base_frequency = 2 * 4194304; // Hz
+		const std::uint32_t _base_frequency = 4194304; // Hz
 
 		const std::uint16_t _div_mod = 256; // => 256 t-cycles / tick
 		const std::uint16_t _ly_mod = 456; // => 456 t-cycles / tick

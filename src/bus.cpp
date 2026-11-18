@@ -31,6 +31,8 @@ bus::~bus()
 
 void bus::initialise_system(void)
 {
+	this->_clock._throttling_time /= this->SPEED_MULTIPLIER;
+	
 	this->initialise_IO_registers();
 	
 	this->load_bootrom();
