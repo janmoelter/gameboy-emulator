@@ -90,7 +90,7 @@ void parse_args(int argc, char** argv)
 		{"boot-rom", required_argument, nullptr, 'r'},
 		{"cartridge", required_argument, nullptr, 'c'},
 		{"disable-display", no_argument, nullptr, 'b'},
-		{"speed-multiplier", no_argument, nullptr, 's'},
+		{"speed-multiplier", required_argument, nullptr, 's'},
 		{"debug", no_argument, nullptr, 'd'},
 		{"help", no_argument, nullptr, 'h'},
 		{"version", no_argument, nullptr, 'V'},
