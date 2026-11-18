@@ -13,15 +13,6 @@ bus::bus(clock& clock, memory& memory, cpu& cpu, gpu& gpu, rom& bootrom, cartrid
 	this->_cartridge._bus = this;
 	this->_interface._bus = this;
 
-
-	std::uint8_t ROM_u8;
-	std::uint8_t CRT_u8;
-
-	for (size_t i = 0; i < 0x30; i++)
-	{
-		ROM_u8 = this->_bootrom._rom[0x00A8 + i];
-		CRT_u8 = this->_cartridge._rom[0x0104 + i];
-	}
 }
 
 bus::~bus()
