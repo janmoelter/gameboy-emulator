@@ -40,11 +40,15 @@ void gpu::build_palette(void)
 
 void gpu::build_tileset(void)
 {
+	std::uint8_t _bgp = this->_bus->get_u8_memory_value(memory::$::BGP);
+	
 	std::array<std::uint8_t, 0x2000> _vram;
 	std::copy_n(this->_bus->_memory.VRAM.begin(), 0x2000, _vram.begin());
 
-	if (this->_vram_cache != _vram)
+	
+	if (this->_bgp_cache != _bgp || this->_vram_cache != _vram)
 	{
+		this->_bgp_cache = _bgp;
 		this->_vram_cache = _vram;
 	
 

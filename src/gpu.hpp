@@ -46,6 +46,7 @@ namespace gameboy
 
 		void build_palette(void);
 
+		std::uint8_t _bgp_cache;
 		std::array<std::uint8_t, 0x2000> _vram_cache;
 
 		sf::Texture render_tile(const std::uint16_t&);
